@@ -153,27 +153,44 @@ print(torch.matmul(tensor_A, tensor_B))  # now it works, resulting in a tensor o
 
         # torch.manual_seed(42)  # Reset the seed again
         # print(torch.rand(2, 2)) # gives same output as on line 141
-# _____________________________________________________________________________________________________________________________________________
 
 torch.manual_seed(42)
 # This uses matrix multiplication
 linear = torch.nn.Linear(in_features=2, # in_features = matches inner dimension of input 
                          out_features=6) # out_features = describes outer value 
+# nn.Linear is a linear transformation layer that applies a linear transformation to the input data.
+# “Take my input numbers → multiply each by some special values (weights) → add an adjustment number (bias) → give me the result.”
+
 x = tensor_A
 output = linear(x)
 print(x)
 print(f"Input shape: {x.shape}\n")
 print(f"Output:\n{output}\n\nOutput shape: {output.shape}")
 
+# basically when we're using the function, we are creating layers of a neural network.
+#  the in_features is the numbe of input features or neurons (which is the columns of the input tensor): this gives different features of the
+# model, like color, model, price, etc of a car
+# out_features is the number of features we want to extract from the already given fetures
+
+#                       At the start, we take the original inputs and expand them into more features.
+#                       This lets the network create many different combinations of the original inputs: more neurons = more capacity to learn patterns.
+#                       TAfter expanding, we don’t want to carry all those patterns to the output — we want to distill them into the most important information.
+#                       So then we shrink the number of features down to the output size.
+#                       So basically we expand few features to give us more combined features and then we shrink it down to have an avg of important features to study the network of inputs.
 
 #______________________________________________________________________________________________________________________________________________
 
 # SOME AGGREGATE METHODS: max, min, mean, sum, std, var
 
-x = torch.arange(1, 100, 10)
+x = torch.arange(1, 100, 10)     # 100 is exclusive
 print(f"Minimum: {x.min()}")
 print(f"Maximum: {x.max()}")
                                     # print(f"Mean: {x.mean()}") # this will error
 print(f"Mean: {x.type(torch.float32).mean()}")      # won't work without float datatype
 print(f"Sum: {x.sum()}")
+
+# Positional min/max
+
+print(f"Index where max value occurs: {x.argmax()}")    # returns 8 = index of max value, values start from 0
+print(f"Index where min value occurs: {x.argmin()}")    # returns 0
 
