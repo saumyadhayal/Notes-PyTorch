@@ -1,0 +1,64 @@
+import matplotlib.pyplot as plt
+import random as rand
+import numpy as np
+
+x = np.array([1,2,3,5,6,7], dtype=float)
+y = np.array([155, 197, 244, 356,407,448], dtype=float)
+print("Features: ", x)
+print("Labels: ", y)
+# SQUARE METHOD
+# learning rate is the small step size between each iteration
+# features are the input data points
+# labels are the target values we want to predict
+# epochs are the number of times we want to iterate over the dataset
+# p' = mx + p / y = bx + y
+rand.seed(0)
+def linear_reg(features, labels, epochs, learning_rate = 0.01):
+    m = rand.random()  # taking random slope and y-intercept
+    b = rand.random()  
+    plt.ion()  # interactive mode: allows dynamic updates to plots
+    fig, ax = plt.subplots()
+    ax.scatter(features, labels, label="Data points")  # plot the training data
+    ax.set_xlim(features.min(), features.max())
+    ax.set_ylim(min(0, labels.min() - 30), labels.max() + 20)
+    ax.set_xlabel("features")
+    ax.set_ylabel("labels")
+    ax.set_title("Linear Regression: Square Method")
+    line, = ax.plot([], [], label="Model line")  # an empty line we'll update every step
+    ax.legend(loc="upper left")
+
+    x_line = np.array([features.min(), features.max()])
+    for epoch in range(epochs):
+        # Pick one random point
+        i = rand.randint(0, len(features) - 1)
+        x_i, y_i = features[i], labels[i]
+
+        m, b = square(learning_rate, x_i, y_i, m, b) # update slope and y-intercept
+
+        # 3) Redraw the line to show progress (animation)
+        y_line = b + m * x_line # calculate the y values for the x_line
+        line.set_data(x_line, y_line)
+        plt.pause(0.01)  # small pause to visually animate
+        # pause is animation speed; 0.0 is fastest (no delay)
+
+    print("Final slope:", m)
+    print("Final y-intercept:", b)
+    plt.ioff()
+    plt.show()
+    
+    return m, b
+# x = feature value for one data point (x value)
+# y = actual label (y value) for that data point
+# b = y-intercept
+# m = slope
+def square(lr, x, y, m, b):
+    y_hat = b + m * x  # predicted value of the intercept: y_hat = mx + b
+    m = m + lr * x * (y - y_hat)  # new slope
+    b = b + lr * (y - y_hat)  # new y-intercept
+    return m, b
+
+# calling the function
+m_learned, b_learned = linear_reg( x, y,
+    learning_rate=0.02,   # step size (try 0.001 or 0.02 to feel the difference)
+    epochs=1000           # number of updates (more = smoother convergence)
+)
