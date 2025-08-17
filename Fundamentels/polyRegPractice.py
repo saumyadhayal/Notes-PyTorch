@@ -89,7 +89,10 @@ model = nn.Linear(Xtr.shape[1], 1, bias=False).to(device)
 # Xtr.shape[1] = number of features (degree + 1 if bias included)
 # output (second argument) is the number of output features we want from existing ones, here we want 1 output (y value)
 
-
+with torch.no_grad():   # we don't want to track gradients for this operation
+    model.weight.uniform_(-1, 1)   # initialize weights uniformly in [-1, 1]
+    # if we don't put the leading _ then it won't update the tensor
+    
 #---------------------------------------------------------------------------------------
 # coefs = [17, 3, -1]   # Coefficients for the polynomial: 15 + 1*x - 1*x^2
 # # here it starts with a constant term, then x , x^2, x^3, etc.
