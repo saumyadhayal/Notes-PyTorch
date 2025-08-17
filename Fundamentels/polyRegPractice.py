@@ -96,8 +96,37 @@ def fit(model, Xtr, ytr, Xval, yval, *, l2=0.0, l1=0.0, lr=0.05, epochs=3000):
         # when we use loss.backward(), it computes the gradients of the loss function with respect to all the weights
         # and then optimizer (like optim.SGD) uses these gradients to update the weights so that the loss function decreases.
 
-    optimizer = optim.SGD(model.parameters(), lr=0.01, weight_decay=l2)
+    opt = optim.SGD(model.parameters(), lr=0.01, weight_decay=l2)
+    # we use l2 to shrink weights little by little towards zero, this is called weight decay.
+    # l2 prevents the model from “memorizing” noise and forces it to learn smoother patterns.
+    # Loss(new) = Loss(old) + weight_decay * (sum of all weights)     this is done to prevent overfitting
 
+    mse = nn.MSELoss() # Mean Squared Error loss function, which is the average of the squared differences between predicted and actual values.
+    hist = {"train": [], "val": []} # keeping track of training and validation loss
+
+    for _ in range(epochs):
+        model.train()
+        pred = model(Xtr) # forward pass: compute predicted y by passing Xtr through the model
+        loss = mse(pred, ytr) # calculate the loss between predicted and actual values
+
+        if l1 > 0:  # if we have lasso regularization (l1 > 0), we add L1 regularization term
+            l1_pen = sum(p.abs().sum() for p in model.parameters())
+            loss = loss + l1 * l1_pen
+
+        opt.zero_grad() # we need to clear all gradients before backward pass
+        # in pytorch, each call to .backward() adds to the previous gradients.
+        loss.backward() # gets gradients of the loss function w.r.t. each model parameter (weight)
+        # this is where the gradients are calculated, and they are stored in the .grad attribute of each parameter.
+        opt.step() # Updates the model’s parameters using the gradients stored in .grad
+
+        model.eval()
+        with torch.no_grad():
+            hist["train"].append(mse(model(Xtr), ytr).item())
+            # mse = nn.MSELoss() calculates the mean squared error between: model(Xtr) which is the predicted values and ytr which is the actual values
+            # mse(model(Xtr), ytr) gives PyTorch tensor containing the average squared error over all training samples.
+            # .item() converts the tensor to a Python number (float)
+            hist["val"].append(mse(model(Xval), yval).item())
+    return hist
 #---------------------------------------------------------------------------------------
 # coefs = [17, 3, -1]   # Coefficients for the polynomial: 15 + 1*x - 1*x^2
 # # here it starts with a constant term, then x , x^2, x^3, etc.
