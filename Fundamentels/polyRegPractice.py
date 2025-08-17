@@ -88,11 +88,16 @@ model = nn.Linear(Xtr.shape[1], 1, bias=False).to(device)
 # here we set bias = False because we already have a bias term in our polynomial features, which is 1
 # Xtr.shape[1] = number of features (degree + 1 if bias included)
 # output (second argument) is the number of output features we want from existing ones, here we want 1 output (y value)
+def fit(model, Xtr, ytr, Xval, yval, *, l2=0.0, l1=0.0, lr=0.05, epochs=3000):
+    with torch.no_grad():   # we don't want to track gradients for this operation
+        model.weight.uniform_(-1, 1)   # initialize weights uniformly in [-1, 1]
+        # if we don't put the leading _ then it won't update the tensor
+        # gradient = slope of the loss function with respect to weights
+        # when we use loss.backward(), it computes the gradients of the loss function with respect to all the weights
+        # and then optimizer (like optim.SGD) uses these gradients to update the weights so that the loss function decreases.
 
-with torch.no_grad():   # we don't want to track gradients for this operation
-    model.weight.uniform_(-1, 1)   # initialize weights uniformly in [-1, 1]
-    # if we don't put the leading _ then it won't update the tensor
-    
+    optimizer = optim.SGD(model.parameters(), lr=0.01, weight_decay=l2)
+
 #---------------------------------------------------------------------------------------
 # coefs = [17, 3, -1]   # Coefficients for the polynomial: 15 + 1*x - 1*x^2
 # # here it starts with a constant term, then x , x^2, x^3, etc.
