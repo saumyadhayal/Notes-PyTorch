@@ -62,3 +62,24 @@ m_learned, b_learned = linear_reg( x, y,
     learning_rate=0.02,   # step size (try 0.001 or 0.02 to feel the difference)
     epochs=1000           # number of updates (more = smoother convergence)
 )
+
+'''
+Coursera Notes for Linear Regression: Terminologies
+
+Training set consists of data points in the form of (x, y) pairs. 
+x are the features,
+y are the targets or original values of function
+y-hat is the predicted value of y, that is calculated using the model.
+f(x) = wx + b = y-hat
+
+Lost Function: tells the score of how well the model is performing. The lower the better
+Formula: L = (1/N)(y - y-hat)^2 where N is the number of data points
+
+This beasically is the mean squared error (MSE) function, which is the square of distance
+between the predicted value and the actual value
+
+Gradient Descent: is the algorithm used to minimize the loss function
+Algorithm:
+w = w - learning_rate * dL/dw       L= loass from previous step
+b = b - learning_rate * dL/db
+'''
