@@ -82,4 +82,19 @@ Gradient Descent: is the algorithm used to minimize the loss function
 Algorithm:
 w = w - learning_rate * dL/dw       L= loass from previous step
 b = b - learning_rate * dL/db
+The learning rate is small due to which it pushes the values of w and b slowly towards the 
+original values. If we keep the lkearning rate high then we might miss our original value and keep 
+overshooting it. We dont want to make the lr too small either because then it will take too long to converge.
+If the original value is to the left of the currebt value, then the derivative/slope will be negative 
+and hence the value of w will increase and vice versa.
+
+When the point gets closer, the slope becomes smaller and therefore update steps become smaller.
+Batch Gradient descent: each set of the gradient descent uses all of the training examples
+f = w1*x1 + w2*x2 + ... + b     ( w.x = dot product )
+w = [w1, w2, w3] = parameters of the model
+b is a number and x is a vector
+
+for subtraction and additon, we can directly use the - and + for arrays with same size
+
+Normal Equation for linear regression (Other way of gradient descendt)
 '''
