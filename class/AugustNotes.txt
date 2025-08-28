@@ -1,0 +1,13 @@
+No free lunch theorems:
+- set of theorems that state that any machine learning setup(D,A,h), when averaged over alll possible 
+problems will have random, chance performace.
+Generalization: using the testing data to check if model works well on that and not only for testing data
+PAC theorem (sample complexity): amount of data needed grows linearly with decreasing error
+making sure we have n number of test data so that our probability is delta with the hypothesis being correct with epsilon error 
+at max
+Maximum likelihood estimation: mant to maximize the likelihood (probability) that the model produces the data 
+from our training data (D)
+theta(MLE) = arg(theta)* max P(probability)h(for the hypothesis) (D|theta) (on the data given the parameters)
+
+= Log likelihood
+
