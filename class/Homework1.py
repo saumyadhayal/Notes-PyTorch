@@ -1,5 +1,6 @@
 import numpy as np
-
+import matplotlib.pyplot as mtplt
+'''
 # Ques 1
 
 x1 = np.array([1,2,3])
@@ -62,9 +63,9 @@ Ans:
 """
 # h) print(D@E) gives a (1,3) zero matrix
 
-d = np.array([1,2,3])
+d = np.array([1,2])
 f = np. zeros((2,1))
-#a) print(B – np.matlib.repmat(f,1,3)) invalid
+#a) print(B - np.matlib.repmat(f,1,3)) invalid
 # b) 
 """
 b = np.concatenate((d.T, d.T*2))
@@ -94,3 +95,146 @@ Ans for e:
 
  so basically f,f,f makes an array with the rows and then 
 """
+print("----------------------")
+
+# Ques 6
+
+print(np.ones((4,1))*5)
+print(np.ones((4))*5)
+print(5*np.ones((1,4)).T)
+# print(np.ones((4,1))@5) ERROR
+print(np.eye(4)*5)
+
+# Ans: 1,3
+
+print("----------------------")
+
+# Ques 7
+J = np.empty((0,5))    # creates an empty array with 0 rows and 3 columns
+for i in range (1,6):
+    a = np.arange(i,i+5, 1)
+    # print(a)
+    J = np.vstack([J, a])     # stacks a on final2 and they keep adding down in the rows
+# print(J)
+print(J[1:4,0:5:2])
+print(J[0:5:2, 1:4])
+print(J[1:4, [0,2,4]])
+print(np.concatenate((J[0,1:4], J[2,1:4], J[4,1:4]), axis = None))
+print(np.concatenate((J[1:4,0], J[1:4,2], J[1:4,4]), axis = None))
+
+# ans: 1,3,5
+'''
+'''
+# Ques 8
+x_vector = np.arange(0,(3/2)*np.pi,0.05)        # when we want a range of points linearly with a step size = arange
+ # if we want points distributed in a space linearly then we use linspace
+y_vector = np.sin(x_vector)
+y2_vector = np.sinc(x_vector/np.pi)
+y3_vector = np.sin(x_vector**2)
+
+fig, ax = mtplt.subplots(figsize=(6,4))
+ax.set_title("Dhayal CMPE 677, Hwk 1, Problem 7, λ=0", fontsize=12)
+ax.set_xlim(0,6)
+ax.set_ylim(-5, 5)
+ax.set_xlabel("Time", fontsize=12)
+ax.set_ylabel("Response", fontsize=12)
+
+ax.plot(x_vector, y_vector, label="sin(x)", color="red", linestyle="-", linewidth=3)
+ax.plot(x_vector, y2_vector, label="sinc(x/pi)", color="green", linestyle="-", linewidth=3)
+ax.plot(x_vector, y3_vector, label="sin(x^2)", color="blue", linestyle="-", linewidth=3)
+
+ax.grid(True)
+ax.legend()
+mtplt.savefig('Dhayal_FirstPlot.png', format='png')
+mtplt.show()
+
+
+# # Ques 9
+# A = np.array([[1, 0, -4, 8, 3], [4, -2, 3, 3, 1]]) 
+# b = np.zeros(5) 
+# print()
+# for index in range(A.shape[1]): 
+#     if A[0, index] > A[1, index]: 
+#         b[index] = A[0, index] 
+#     else: 
+#         b[index] = A[1, index] 
+# print(b)
+
+# # Ans: [4 0 3 8 3]
+
+
+
+# Ques 10
+# b = 3x2, a is 2x1, 
+# print(np.array(np.concatenate((np.eye(2),np.zeros((2,1))),axis=1))*0 )
+# print(np.eye(2,3))
+# print(np.array([[0,0],[0,0], [0,0]]).T)
+
+# Ans: c, d, e, f
+'''
+# Ques 11
+'''
+Gaussian distribution is the bell like distribution of the data:
+mean is where the data is centred and variance means how widely is it spreaded accross the plane
+
+**Think of the Gaussian (normal distribution) as a "bell-shaped curve" that tells us:
+    where the data is centered (the mean),
+    how spread out it is (the variance).
+
+
+Extending to 2 variables (multivariate Gaussian): makes a hill now since we have more parameters
+so mean = [0,3] mean hill is centred at x1 = 0 and x2 = 3
+and covarience matrix: tells us the shape of the hill
+so [[u11, u12][u21, u22]] = (u11, u12) tell us varience of x1 and x2 (relation on diagonals)
+whereas (u21, u22) = relation between the two (Off-diagonals)
+
+PDF = Probability Density Function
+
+mvn is like a machine representing your 2D Gaussian.
+.pdf(point) → gives you the height (density) at that point
+    *tells you how “dense” probability is around that point.
+    *not a probability itself (since continuous variables dont have probability at one exact point).
+    *but if you integrate the PDF over a region, you get probability.
+
+mvn.pdf([x,y]) → evaluates the PDF formula at that coordinate. This is the “height” 
+of the Gaussian surface at (x,y).
+    Z in your code = a 2D table of those PDF values, one for each grid point.
+    When you plotted contours, you visualized “all points where PDF = some constant” 
+    (like elevation lines on a map)
+
+when PDE is integrated: probability that the random variable falls inside that interval.
+'''
+import matplotlib.pyplot as plt 
+from scipy.stats import multivariate_normal 
+# Define mean (mu) and covariance matrix (sigma) 
+mu = np.array([0, 3]) 
+sigma = np.array([[5, -2], [-2, 2]]) 
+# Create a grid of x1 and x2 values 
+x1 = np.arange(-10, 10.1, 0.1) 
+x2 = np.arange(-10, 10.1, 0.1) 
+X1, X2 = np.meshgrid(x1, x2) 
+# Create a multivariate normal distribution 
+mvn = multivariate_normal(mean=mu, cov=sigma)
+# Calculate the PDF values for each point in the grid 
+pdf_values = mvn.pdf(np.column_stack((X1.ravel(), X2.ravel()))) 
+print(pdf_values)
+# Reshape the PDF values to match the grid shape 
+F = pdf_values.reshape(X1.shape) 
+print(F)
+# Create a contour plot 
+plt.contour(x1, x2, F) 
+# Set plot attributes 
+plt.grid(True) 
+plt.axis('square') 
+plt.title('Dhayal CMPE 677, Hwk 1, Problem 10', fontsize=12) 
+# Save the plot as a PNG file 
+plt.savefig('cmpe677_hwk1_10.png', format='png') 
+# Show the plot 
+plt.figure()
+marg_y = np.trapezoid(F, x2, axis=0)   # integrates over x2 values, axis = 0 for going across column for values
+marg_x = np.trapezoid(F, x1, axis=1 )   # axis = 1 for integrate across each row, leaving you with one result per row
+plt.plot(x1, marg_x, label="f_X(x)")
+plt.plot(x2, marg_y, label="f_Y(y)")
+plt.legend()
+plt.savefig('cmpe677_hwk1_10_2.png', format='png') 
+plt.show() 

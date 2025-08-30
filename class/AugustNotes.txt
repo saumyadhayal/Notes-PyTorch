@@ -11,3 +11,7 @@ theta(MLE) = arg(theta)* max P(probability)h(for the hypothesis) (D|theta) (on t
 
 = Log likelihood
 
+Linear regression
+y-hat = mu + b
+
+pseudo unverse matrix
