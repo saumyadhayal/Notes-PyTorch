@@ -15,3 +15,6 @@ Linear regression
 y-hat = mu + b
 
 pseudo unverse matrix
+
+
+pseudo inverse = numpy.pinv

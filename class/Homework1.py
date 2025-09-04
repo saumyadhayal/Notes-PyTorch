@@ -172,6 +172,7 @@ mtplt.show()
 
 # Ans: c, d, e, f
 '''
+# """
 # Ques 11
 '''
 Gaussian distribution is the bell like distribution of the data:
@@ -203,38 +204,122 @@ of the Gaussian surface at (x,y).
     (like elevation lines on a map)
 
 when PDE is integrated: probability that the random variable falls inside that interval.
+
+
+READ MORE ABOUT PROBABILITY DISTRIBUTION
 '''
+
+# import matplotlib.pyplot as plt 
+# from scipy.stats import multivariate_normal 
+# # Define mean (mu) and covariance matrix (sigma) 
+# mu = np.array([0, 3]) 
+# sigma = np.array([[5, -2], [-2, 2]]) 
+# # Create a grid of x1 and x2 values 
+# x1 = np.arange(-10, 10.1, 0.1) 
+# x2 = np.arange(-10, 10.1, 0.1) 
+# X1, X2 = np.meshgrid(x1, x2) 
+# # Create a multivariate normal distribution 
+# # algorithm that prepares the model with the mean and varience of data
+# mvn = multivariate_normal(mean=mu, cov=sigma)
+
+# # Calculate the PDF values for each point in the grid 
+# # pdf here is the height when plotting the gaussian curve where we have x1 and x2 on x and y axis 
+# # and the mean and varience give us the distribution of data
+# # ravel function flattens the 2d or 3d matrix into 1d 
+# # opposite of ravel() function is reshape(2,3) this reshapes the 1d matrix into rows,columns
+# pdf_values = mvn.pdf(np.column_stack((X1.ravel(), X2.ravel()))) 
+# # print(pdf_values)
+
+# # Reshape the PDF values to match the grid shape 
+# F = pdf_values.reshape(X1.shape) 
+# # print(F)
+# # Create a contour plot 
+# # plt.contour(x1, x2, F) 
+# # # Set plot attributes 
+# # plt.grid(True) 
+# # plt.axis('square') 
+# # plt.title('Dhayal CMPE 677, Hwk 1, Problem 10', fontsize=12) 
+# # # Save the plot as a PNG file 
+# # plt.savefig('cmpe677_hwk1_10.png', format='png') 
+# # # Show the plot 
+# # plt.figure()
+# '''
+# marginal distribution is what you get when you only care about one variable (say X) and “ignore”
+#  the other one (Y). So it's basically plotting the height vs the x and y values
+# '''
+# marg_y = np.trapezoid(F, x1, axis=1)   # integrates over x1 values, axis = 0 for going across column for values
+# marg_x = np.trapezoid(F, x2, axis=0 )   # axis = 1 for integrate across each row, leaving you with one result per row
+# plt.plot(x1, marg_x, label="f_X(x)")
+# plt.plot(x2, marg_y, label="f_Y(y)")
+# plt.legend()
+# plt.title("Marginals for the Gaussian Distribution")
+# plt.savefig('cmpe677_hwk1_10_2.png', format='png') 
+# # plt.show() 
+
+# '''
+# b) to get the mean of the graphs, we will take the integral of x * PDF
+# since PDF is between 0 and 1
+# '''
+
+# mu_x = np.trapezoid(marg_x * x1, x1) # no axis needed, both are 1D
+
+# print(f"{x1 = }, {x1 * marg_x = }, {mu_x = }")
+
+# mu_y = np.trapezoid(marg_y * x2, x2)
+
+# print(f"{x2 = }, {x2 * marg_y = }, {mu_y = }")
+
+# plt.axvline(mu_x,linestyle="--", label="mu(X)", color="red")
+# plt.axvline(mu_y, linestyle="--", label="mu(y)", color="green")
+# plt.legend()
+# plt.title("Means of Marginal Distribution")
+# plt.savefig('cmpe677_hwk1_10_3.png', format='png') 
+# plt.show()
+
+# """
+'''
+probability density changes along the x-axis, for different fixed values of y
+for y = 0 is highest since the curve is tallest (highest probability)
+but for the other y values the curves get shorter because you're slicing farther away from the peak of the hill.
+'''
+import numpy as np 
 import matplotlib.pyplot as plt 
 from scipy.stats import multivariate_normal 
 # Define mean (mu) and covariance matrix (sigma) 
-mu = np.array([0, 3]) 
+mu = np.array([0, 0]) 
 sigma = np.array([[5, -2], [-2, 2]]) 
 # Create a grid of x1 and x2 values 
-x1 = np.arange(-10, 10.1, 0.1) 
-x2 = np.arange(-10, 10.1, 0.1) 
-X1, X2 = np.meshgrid(x1, x2) 
+x = np.arange(-10, 10.1, 0.1) 
+y = np.arange(-10, 10.1, 0.1) 
+X, Y = np.meshgrid(x, y) 
 # Create a multivariate normal distribution 
-mvn = multivariate_normal(mean=mu, cov=sigma)
+mvn = multivariate_normal(mean=mu, cov=sigma) 
 # Calculate the PDF values for each point in the grid 
-pdf_values = mvn.pdf(np.column_stack((X1.ravel(), X2.ravel()))) 
-print(pdf_values)
+pdf_values = mvn.pdf(np.column_stack((X.ravel(), Y.ravel()))) 
 # Reshape the PDF values to match the grid shape 
-F = pdf_values.reshape(X1.shape) 
-print(F)
-# Create a contour plot 
-plt.contour(x1, x2, F) 
+F = pdf_values.reshape(X.shape) 
+# Create a contour plot
+
+marg_y = np.trapezoid(F, x, axis=1)   # integrates over x1 values, axis = 0 for going across column for values
+marg_x = np.trapezoid(F, y, axis=0 )   # axis = 1 for integrate across each row, leaving you with one result per row
+
+# plt.contour(x, y, F)
 # Set plot attributes 
+
+y_values = np.arange(-4, 5, 2)   # gives -4, -2, 0, 2, 4plt.plot(x, trace1, color = "purple", label="Trace 1")
+plt.figure(figsize=(7,4.5))
+
+for j in y_values:
+    points = np.column_stack((x, np.full_like(x, j)))
+    z_slice = mvn.pdf(points)
+    plt.plot(x, z_slice, label=f"y = {j}", linewidth=2)
+
+plt.xlabel('X') 
+plt.ylabel('Y') 
+plt.legend(title='Slices at different Y values')
 plt.grid(True) 
-plt.axis('square') 
-plt.title('Dhayal CMPE 677, Hwk 1, Problem 10', fontsize=12) 
+plt.title('Traces for CMPE 677, Hwk 1, Problem 12', fontsize=12) 
 # Save the plot as a PNG file 
-plt.savefig('cmpe677_hwk1_10.png', format='png') 
+plt.savefig('cmpe677_hwk12.png', format='png') 
 # Show the plot 
-plt.figure()
-marg_y = np.trapezoid(F, x2, axis=0)   # integrates over x2 values, axis = 0 for going across column for values
-marg_x = np.trapezoid(F, x1, axis=1 )   # axis = 1 for integrate across each row, leaving you with one result per row
-plt.plot(x1, marg_x, label="f_X(x)")
-plt.plot(x2, marg_y, label="f_Y(y)")
-plt.legend()
-plt.savefig('cmpe677_hwk1_10_2.png', format='png') 
-plt.show() 
+plt.show()
