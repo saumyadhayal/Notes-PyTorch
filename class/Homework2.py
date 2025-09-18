@@ -32,7 +32,7 @@ d) over fit, the curve touches every point. although, it has a very low loss fun
 the curve might not be able to predict new data
 
 '''
-"""
+
 # Ques 7
 
 import numpy as np
@@ -45,8 +45,8 @@ y = data[:, 1]
 
 # Plot the data
 plt.figure()
-plt.xlim([0, 100])
-plt.ylim([-5, 100])
+# plt.xlim([0, 100])
+# plt.ylim([-5, 100])
 plt.plot(U, y, 'rx', markersize=10, linewidth=3)  # red 'x' markers
 plt.ylabel('Profit in $10,000s')
 plt.xlabel('Population of City in 10,000s')
@@ -61,11 +61,11 @@ w0, w1 = w
 y_fit  = w0 + w1 * U    # predicted values
 plt.plot(U, y_fit, 'g:',linewidth=1, label='Normal Equations Fit')  # best fit line, g: means a dotted green line
 
-# val_32_y = w[0] + w[1] * 35
-# val_70_y = w[0] + w[1] * 70
-# print(val_32_y, val_70_y)
-# plt.plot(35, val_32_y, 'bo', markersize=6, label=f'Prediction for 35,000 population= {val_32_y*10000:.0f}')
-# plt.plot(70, val_70_y, 'mo', markersize=6, label=f'Prediction for 70,000 population= {val_70_y*10000:.0f}')
+val_32_y = w[0] + w[1] * 3.5
+val_70_y = w[0] + w[1] * 7
+print(val_32_y, val_70_y)
+plt.plot(3.5, val_32_y, 'bo', markersize=6, label=f'Prediction for 35,000 population= {val_32_y*10000:.0f}')
+plt.plot(7, val_70_y, 'mo', markersize=6, label=f'Prediction for 70,000 population= {val_70_y*10000:.0f}')
 
 plt.legend()
 plt.tight_layout()
@@ -74,7 +74,6 @@ plt.tight_layout()
 plt.savefig("hw2_10_2.png", dpi=150)
 plt.show()
 
-"""
 
 
 '''
@@ -101,8 +100,8 @@ loss = compute_loss(Udata, y, w)
 print("Loss:", loss) 
 
 '''
-"""
-import numpy as np 
+
+"""import numpy as np 
 import matplotlib.pyplot as plt
 # Define a function to compute the loss 
 def compute_loss(U, y, w): 
@@ -145,24 +144,23 @@ plt.plot(U, Udata @ w, 'g:',linewidth=1, label='Gradient Descent Fit')  # best f
 
 # Ques 10
 
-val_32_y = w[0] + w[1] * 35
-val_70_y = w[0] + w[1] * 70
+val_32_y = (w[0] + w[1] * 3.5)
+val_70_y = (w[0] + w[1] * 7)
 print(val_32_y, val_70_y)
-plt.plot(35, val_32_y, 'bo', markersize=6, label=f'Prediction for 35,000 population= {val_32_y*10000:.0f}')
-plt.plot(70, val_70_y, 'mo', markersize=6, label=f'Prediction for 70,000 population= {val_70_y*10000:.0f}')
+plt.plot(3.5, val_32_y, 'bo', markersize=6, label=f'Prediction for 35,000 population= {val_32_y*10000:.0f}')
+plt.plot(7, val_70_y, 'mo', markersize=6, label=f'Prediction for 70,000 population= {val_70_y*10000:.0f}')
 
 
-plt.xlim([0, 100])
-plt.ylim([-5, 100])
+# plt.xlim([0, 100])
+# plt.ylim([-5, 100])
 plt.ylabel('Profit in $10,000s')
 plt.xlabel('Population of City in 10,000s')
 plt.grid(True)
 plt.legend()
-plt.savefig("hw_2_ex10_1.png", dpi=150)
-plt.show()
+# plt.savefig("hw_2_ex10_1.png", dpi=150)
+plt.show()"""
 
-"""
-# Ques 11
+"""# Ques 11
 
 import numpy as np 
 import matplotlib.pyplot as plt
@@ -218,4 +216,4 @@ plt.ylabel('Loss')
 plt.title('Loss vs. Iteration ')
 plt.grid(True)
 plt.savefig("hw_2_ex11.png", dpi=150)
-plt.show()
+plt.show()"""
