@@ -150,17 +150,17 @@ mtplt.show()
 
 
 # # Ques 9
-# A = np.array([[1, 0, -4, 8, 3], [4, -2, 3, 3, 1]]) 
-# b = np.zeros(5) 
-# print()
-# for index in range(A.shape[1]): 
-#     if A[0, index] > A[1, index]: 
-#         b[index] = A[0, index] 
-#     else: 
-#         b[index] = A[1, index] 
-# print(b)
+A = np.array([[1, 0, -4, 8, 3], [4, -2, 3, 3, 1]]) 
+b = np.zeros(5) 
+print()
+for index in range(A.shape[1]): 
+    if A[0, index] > A[1, index]: 
+        b[index] = A[0, index] 
+    else: 
+        b[index] = A[1, index] 
+print(b)
 
-# # Ans: [4 0 3 8 3]
+# Ans: [4 0 3 8 3]
 
 
 
@@ -256,25 +256,25 @@ READ MORE ABOUT PROBABILITY DISTRIBUTION
 # plt.savefig('cmpe677_hwk1_10_2.png', format='png') 
 # # plt.show() 
 
-# '''
-# b) to get the mean of the graphs, we will take the integral of x * PDF
-# since PDF is between 0 and 1
-# '''
+# # '''
+# # b) to get the mean of the graphs, we will take the integral of x * PDF
+# # since PDF is between 0 and 1
+# # '''
 
-# mu_x = np.trapezoid(marg_x * x1, x1) # no axis needed, both are 1D
+# # mu_x = np.trapezoid(marg_x * x1, x1) # no axis needed, both are 1D
 
-# print(f"{x1 = }, {x1 * marg_x = }, {mu_x = }")
+# # print(f"{x1 = }, {x1 * marg_x = }, {mu_x = }")
 
-# mu_y = np.trapezoid(marg_y * x2, x2)
+# # mu_y = np.trapezoid(marg_y * x2, x2)
 
-# print(f"{x2 = }, {x2 * marg_y = }, {mu_y = }")
+# # print(f"{x2 = }, {x2 * marg_y = }, {mu_y = }")
 
-# plt.axvline(mu_x,linestyle="--", label="mu(X)", color="red")
-# plt.axvline(mu_y, linestyle="--", label="mu(y)", color="green")
-# plt.legend()
-# plt.title("Means of Marginal Distribution")
-# plt.savefig('cmpe677_hwk1_10_3.png', format='png') 
-# plt.show()
+# # plt.axvline(mu_x,linestyle="--", label="mu(X)", color="red")
+# # plt.axvline(mu_y, linestyle="--", label="mu(y)", color="green")
+# # plt.legend()
+# # plt.title("Means of Marginal Distribution")
+# # plt.savefig('cmpe677_hwk1_10_3.png', format='png') 
+# # plt.show()
 
 # """
 '''
@@ -310,8 +310,8 @@ y_values = np.arange(-4, 5, 2)   # gives -4, -2, 0, 2, 4plt.plot(x, trace1, colo
 plt.figure(figsize=(7,4.5))
 
 for j in y_values:
-    points = np.column_stack((x, np.full_like(x, j)))
-    z_slice = mvn.pdf(points)
+    points = np.column_stack((x, np.full_like(x, j)))  # 2D array of x values corresponding to the fixed j values each loop
+    z_slice = mvn.pdf(points) # creates new heights for the values that are required
     plt.plot(x, z_slice, label=f"y = {j}", linewidth=2)
 
 plt.xlabel('X') 
